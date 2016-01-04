@@ -2,7 +2,9 @@
 
 Here I describe the specification for a "wildcard" DB.
 
-The goal of `xdb` is to offer a single API for any database in Python. Once a module has been written for a particular database, it is as easy as changing the 1) [import statement](#importing) and 2) [server information](#server-information) to switch between backends. Let's say 2-5 lines of code, total.
+The goal of `xdb` is to offer a single API for any database in Python.
+
+Once a module has been written for a particular database, it is as easy as changing the 1) [import statement](#importing) and 2) [server information](#server-information) to switch between backends. Let's say 2-5 lines of code, total.
 
 Disclaimer: This is my first attempt at writing a specification before actually writing code, so bear with me.
 
@@ -27,6 +29,8 @@ Also, [ZODB](http://www.zodb.org/en/latest/) provides support for different mech
 
 ## Main objects
 
+Mostly pseudo code here.
+
 An `Item` class is named `Item` because it could be a `Document` (Document based type) or a `Record` (SQL type). `Item` seems neutral.
 
     class Item():
@@ -39,23 +43,27 @@ Database is an object that allows typical CRUD.
         def __init__(self, server_information):
             pass
 
-        def get_item_bulk(conditions):
-            return lots_of_items
-
-        def get_item(condition):
-            """ Get item only under specific conditions
-            if item is newest_item or item.id == X or etc.
-            """
-            pass
-
         def create_or_update(item):
             return "if not existing, create, otherwise update, and return status code"
 
         def create_or_update_bulk(items):
             return status_codes_for_each_item
 
-class YourSuggestion():
-    pass
+        def get_item_bulk(conditions):
+            return lots_of_items
+
+        def get_item(conditions):
+            """ Get item only under specific conditions
+            if item is newest_item or item.id == X or etc.
+            """
+            pass
+
+        def delete_item_if_exists(conditions):
+
+Your suggestions are welcome, add something new or propose changes:
+
+    class YourSuggestion():
+        pass
 
 ## Modules:
 
@@ -77,7 +85,7 @@ File based
     from xdb.file import XItem
     from xdb.file import XDatabase
 
-Here the added X to the object shows it can be replaced; just like the wildcard "`*`"
+Here the prepended X to the object shows that the prefix is replaceable; just like the wildcard "`*`". You could read it as `CloudantDatabase`, `FileDatabase` etc.
 
 ## Importing
 
