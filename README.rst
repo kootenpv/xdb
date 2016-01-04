@@ -1,0 +1,1 @@
+The goal of `xdb` is to offer a single API for any database in Python. Once a module has been written for a particular database, it is as easy as changing the 1) import statement and 2) server information to switch between backends. Let's say 2-5 lines of code, total.
