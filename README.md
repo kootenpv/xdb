@@ -6,9 +6,9 @@ The goal of `xdb` is to offer a single API for any database in Python.
 
 Once a module has been written for a particular database, it is as easy as changing the 1) [import statement](#importing) and 2) [server information](#server-information) to switch between backends. Let's say 2-5 lines of code, total.
 
-Disclaimer: This is my first attempt at writing a specification before actually writing code, so bear with me.
+**Disclaimer: This is my first attempt at writing a specification before actually writing code, so bear with me.**
 
-Collaboration: Note that I very much appreciate people collaborating on this specification to make it better.
+Collaboration: Note that I very much appreciate people collaborating on this specification (and of course, the actual writing of code) to make it better.
 
 ## Has this been done before?
 
