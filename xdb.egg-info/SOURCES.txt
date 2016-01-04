@@ -1,9 +1,0 @@
-README.rst
-setup.cfg
-setup.py
-xdb/__init__.py
-xdb.egg-info/PKG-INFO
-xdb.egg-info/SOURCES.txt
-xdb.egg-info/dependency_links.txt
-xdb.egg-info/not-zip-safe
-xdb.egg-info/top_level.txt

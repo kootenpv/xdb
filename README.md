@@ -33,37 +33,44 @@ Mostly pseudo code here.
 
 An `Item` class is named `Item` because it could be a `Document` (Document based type) or a `Record` (SQL type). `Item` seems neutral.
 
-    class Item():
-        """ Not sure yet what functionality """
-        pass
+```python
+class Item():
+    """ Not sure yet what functionality """
+    pass
+```
 
 Database is an object that allows typical CRUD.
 
-    class Database(object):
-        def __init__(self, server_information):
-            pass
+```python
+class Database(object):
+    def __init__(self, server_information):
+        pass
 
-        def create_or_update(item):
-            return "if not existing, create, otherwise update, and return status code"
+    def create_or_update(item):
+        return "if not existing, create, otherwise update, and return status code"
 
-        def create_or_update_bulk(items):
-            return status_codes_for_each_item
+    def create_or_update_bulk(items):
+        return status_codes_for_each_item
 
-        def get_item_bulk(conditions):
-            return lots_of_items
+    def get_item_bulk(conditions):
+        return lots_of_items
 
-        def get_item(conditions):
-            """ Get item only under specific conditions
-            if item is newest_item or item.id == X or etc.
-            """
-            pass
+    def get_item(conditions):
+        """ Get item only under specific conditions
+        if item is newest_item or item.id == X or etc.
+        """
+        pass
 
-        def delete_item_if_exists(conditions):
+    def delete_item_if_exists(conditions):
+        pass
+```
 
 Your suggestions are welcome, add something new or propose changes:
 
-    class YourSuggestion():
-        pass
+```python
+class YourSuggestion():
+    pass
+```
 
 ## Modules:
 
@@ -71,19 +78,24 @@ There would be one base to inherit from, and then anyone could write a compatibl
 
 Core
 
-    from xdb.base import Item
-    from xdb.base import Database
-
+```python
+from xdb.base import Item
+from xdb.base import Database
+```
 
 Cloudant
 
-    from xdb.cloudant import XItem
-    from xdb.cloudant import XDatabase
+```python
+from xdb.cloudant import XItem
+from xdb.cloudant import XDatabase
+```
 
 File based
 
-    from xdb.file import XItem
-    from xdb.file import XDatabase
+```python
+from xdb.file import XItem
+from xdb.file import XDatabase
+```
 
 Here the prepended X to the object shows that the prefix is replaceable; just like the wildcard "`*`". You could read it as `CloudantDatabase`, `FileDatabase` etc.
 
@@ -94,13 +106,17 @@ Plus, the "`server_information.py`", which would contain information required fo
 
 Import:
 
-    import xdb.file as db
-    import xdb.cloudant as db
+```python
+import xdb.file as db
+import xdb.cloudant as db
+```
 
 So you can use in your file :
 
-    db.XDatabase
-    db.XItem
+```python
+db.XDatabase
+db.XItem
+```
 
 and still do not have to worry about the underlying APIs.
 
@@ -108,36 +124,54 @@ and still do not have to worry about the underlying APIs.
 
 In your project, you'd define a `server_information.py`, depending on what backend you use. It contains the information neccessary to make a connection to an XDatabase object
 
+```python
+def provide_server_information():
+    """ For file based it would look like this """
+    # Database is on toplevel path (here /local/path/db1/)
+    # Table/ItemType is on sublevel path (here /local/path/db1/table1)
+    # Items are files (here /local/path/db1/table1/record1.xdb)
+    return {'path': '/local/path/'}
 
-    def provide_server_information():
-        """ For file based it would look like this """
-        # Database is on toplevel path (here /local/path/db1/)
-        # Table/ItemType is on sublevel path (here /local/path/db1/table1)
-        # Items are files (here /local/path/db1/table1/record1.xdb)
-        return {'path': '/local/path/'}
+def provide_server_information():
+    """ For cloudant it would look like this """
+    from cloudant import account
 
-    def provide_server_information():
-        """ For cloudant it would look like this """
-        from cloudant import account
+    # or use token instead of username/password
+    account = cloudant.Account(USERNAME)
+    account.login(USERNAME, PASSWORD)
 
-        # or use token instead of username/password
-        account = cloudant.Account(USERNAME)
-        account.login(USERNAME, PASSWORD)
+    return account
 
-        return account
+def provide_server_information():
+    """ For elasticsearch it would look like this """
+    import elasticsearch
 
-    def provide_server_information():
-        """ For elasticsearch it would look like this """
-        import elasticsearch
+    info = [{'host': 'localhost', 'port': 9200}]
 
-        info = [{'host': 'localhost', 'port': 9200}]
+    return elasticsearch.Elasticsearch(info)
+```
 
-        return elasticsearch.Elasticsearch(info)
+## How you'd use it
 
 Considering you'd have a script where you get docs, update, filter, sort, juggle with them, all you have to do is change the toplevel import and change provide_server_information with one of the others:
 
-    # testing_mydb.py
-    import xdb.cloudant as db
-    from server_information import provide_server_information
+*/path/to/testing_mydb.py*
 
-    mydb = db.XDatabase(provide_server_information())
+```python
+import xdb.cloudant as db
+from server_information import provide_server_information
+
+mydb = db.XDatabase(provide_server_information())
+items = mydb.get_bulk_items()
+```
+
+*/path/to/server_information.py*
+
+```python
+from cloudant import account
+
+def provide_server_information():
+    account = cloudant.Account(USERNAME)
+    account.login(USERNAME, PASSWORD)
+    return account
+```
