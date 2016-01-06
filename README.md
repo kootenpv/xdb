@@ -1,12 +1,12 @@
-# Specification for `xdb`
+# xdb
 
-Here I describe the specification for a "wildcard" DB.
+For now, the readme contains the specification for a "wildcard" DB called `xdb`.
 
 The goal of `xdb` is to offer a single API for any database in Python.
 
 Once a module has been written for a particular database, it is as easy as changing the 1) [import statement](#importing) and 2) [server information](#server-information) to switch between backends. Let's say 2-5 lines of code, total.
 
-**Disclaimer: This is my first attempt at writing a specification before actually writing code, so bear with me.**
+**Disclaimer: This is my first attempt at writing a specification before actually writing code, so please bear with me. **
 
 Collaboration: Note that I very much appreciate people collaborating on this specification (and of course, the actual writing of code) to make it better.
 
@@ -21,12 +21,12 @@ Also, [ZODB](http://www.zodb.org/en/latest/) provides support for different mech
 - No need to know the intricacies of each database, learn 1 API, use any database
 - Quick to mock using file as backend, then just switch to using a database.
 - Helpful for frameworks that want to support multiple databases
-- Could potentially really help with migrations
+- Could potentially really help with migrations between databases
 
 ## Difficulties
 
-- Writing a single API that will be "good enough" to encapsulate ALL ("pragmatically" all) other APIs is difficult
-- async will not be first priority (unless...)
+- Writing a single API that will be "good enough" to encapsulate ALL ("pragmatically" all) other APIs
+- async (will have low first priority)
 
 ## Main objects
 
@@ -64,13 +64,6 @@ class Database(object):
 
     def delete_item_if_exists(conditions):
         pass
-```
-
-Your suggestions are welcome, add something new or propose changes:
-
-```python
-class YourSuggestion():
-    pass
 ```
 
 ## Modules:
