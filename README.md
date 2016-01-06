@@ -21,6 +21,7 @@ Also, [ZODB](http://www.zodb.org/en/latest/) provides support for different mech
 - No need to know the intricacies of each database, learn 1 API, use any database
 - Quick to mock using file as backend, then just switch to using a database.
 - Helpful for frameworks that want to support multiple databases
+- Could potentially really help with migrations
 
 ## Difficulties
 
@@ -175,3 +176,15 @@ def provide_server_information():
     account.login(USERNAME, PASSWORD)
     return account
 ```
+
+## Getting a superset of all functionality
+
+This section tries to find out the best superset of functionality such that it can be used for all databases
+
+|API            |Database|Topic|Item|Extras|
+|---|---|---|---|---|
+|File            |Path-0    |Path-1|Path-1-File||
+|ElasticSearch   |Database    |doc_type|Document|Searching/plugins|
+|Cloudant        |Database    ||Document|Views, async|
+|ZODB            |Database|keys|objects|Transactional|
+|SQL|Database|Table|Record|
